@@ -1,0 +1,31 @@
+#!/bin/sh
+GITDIRECTORY=`cat ~/.git_directory_name`
+BRANCHNAME=$1
+
+echo "[GitDirectory] : $GITDIRECTORY"
+echo ""
+cd "$HOME/$GITDIRECTORY"
+GITDEVELOPCHK=`git branch | grep develop | wc -l`
+
+GITSTATUS=`git status | grep -v 'nothing to commit, working directory clean' | grep -v '#' | grep -v "untracked" | wc -l`
+if [ "$GITSTATUS" -ne 0 ]; then
+	echo "not branch change"
+	exit 1
+fi
+
+if [ "$BRANCHNAME" != "" ]; then
+	git checkout "$BRANCHNAME"
+else
+	if [ "$GITDEVELOPCHK" -ne 0 ]; then
+		git checkout develop
+	else
+		echo "not option branch name"
+	fi
+fi
+
+SETBRANCH=`git branch | grep "*"`
+
+echo "Run Branch : $SETBRANCH"
+
+
+

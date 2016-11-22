@@ -1,0 +1,20 @@
+#!/bin/sh
+YYMMDDHHMM=`date '+%Y%m%d'`
+
+GITDIRECTORY=`cat $HOME/.git_directory_name`
+
+cd "$HOME/$GITDIRECTORY"
+GITDEVELOPCHK=`git branch | grep develop | wc -l`
+GITSTATUS=`git status | grep -v 'nothing to commit, working directory clean' | grep -v '#' | wc -l`
+if [ "$GITSTATUS" != 0 ]; then
+	echo "Create branch NG"
+	exit 1
+fi
+
+if [ "$GITDEVELOPCHK" != 0 ]; then
+	git checkout develop
+	git pull
+	git checkout -b "feature_$YYMMDDHHMM" remotes/origin/develop
+	echo "Create_branch [ feature_$YYMMDDHHMM ]"
+fi
+
