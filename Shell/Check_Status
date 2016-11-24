@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GITDIRECTORY=`cat ~/.git_directory_name`
+GITDIRECTORY=`cat $HOME/.git_directory_name`
 
 cd "$HOME/$GITDIRECTORY"
 echo ""

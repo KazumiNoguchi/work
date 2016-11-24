@@ -1,0 +1,18 @@
+#!/bin/sh
+OPT=$1
+GITDIRECTORY=`cat $HOME/.git_directory_name`
+cd "$HOME/$GITDIRECTORY"
+echo ""
+for DIRNAME in `ls -l | grep ^d | grep -v "node_" | grep -v "vendor" | awk '{print $9;}'`
+do
+	echo -e "\033[0;34m[$DIRNAME]\033[0;39m"
+	grep -rn "$OPT" $DIRNAME/*
+	NUM=`grep -rn "$OPT" $DIRNAME/* | wc -l` 
+	if [ "$NUM" = 0 ]; then
+		echo "一致するファイルはありませんでした。"
+	fi
+	echo ""
+done
+
+
+
